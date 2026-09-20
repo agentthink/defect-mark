@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MaskFlow 登录注册</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body class="auth-page">
+    <main class="auth-shell">
+      <section class="auth-product">
+        <a class="marketing-brand auth-logo" href="/index.html" aria-label="返回 MaskFlow 首页">
+          <span class="logo-mark">M</span>
+          <strong>MaskFlow</strong>
+        </a>
+        <div class="auth-copy">
+          <h1>AI 自动标注，<br />让数据标注更简单高效</h1>
+          <p>基于先进的 AI 模型，自动分割目标，辅助人工校正，一键导出高质量数据集。</p>
+        </div>
+        <div class="auth-visual" aria-hidden="true">
+          <div class="shield-card">
+            <span>✦</span>
+          </div>
+          <i class="block block-a"></i>
+          <i class="block block-b"></i>
+        </div>
+        <div class="auth-feature-grid">
+          <div><span>▧</span><strong>AI 自动分割</strong><p>高精度分割，节省时间</p></div>
+          <div><span>▣</span><strong>批量处理</strong><p>支持批量图片自动处理</p></div>
+          <div><span>✎</span><strong>标注工具</strong><p>丰富的标注与编辑工具</p></div>
+          <div><span>☁</span><strong>云端加速</strong><p>分布式计算，权限管理</p></div>
+        </div>
+      </section>
+
+      <section class="auth-form-panel" data-auth-mode="login">
+        <form id="loginForm" class="single-auth-card" autocomplete="on">
+          <h2>登录</h2>
+          <label class="field">
+            <span>邮箱 / 用户名</span>
+            <input name="email" type="email" autocomplete="email" placeholder="请输入邮箱或用户名" required />
+          </label>
+          <label class="field">
+            <span>密码</span>
+            <input name="password" type="password" autocomplete="current-password" placeholder="请输入密码" required />
+          </label>
+          <div class="auth-row">
+            <label class="remember"><input type="checkbox" />记住我</label>
+            <a href="#">忘记密码?</a>
+          </div>
+          <button type="submit">登录</button>
+          <p id="loginMessage" class="form-message"></p>
+          <p class="switch-auth">还没有账号？ <button id="showRegisterButton" type="button">立即注册</button></p>
+        </form>
+
+        <form id="registerForm" class="single-auth-card" autocomplete="on" hidden>
+          <h2>注册</h2>
+          <label class="field">
+            <span>邮箱</span>
+            <input name="email" type="email" autocomplete="email" placeholder="请输入邮箱" required />
+          </label>
+          <label class="field">
+            <span>密码</span>
+            <input name="password" type="password" autocomplete="new-password" placeholder="请输入密码" minlength="8" required />
+          </label>
+          <label class="remember policy">
+            <input type="checkbox" required />
+            <span>我已阅读并同意 <a href="#">《用户协议》</a> 和 <a href="#">《隐私政策》</a></span>
+          </label>
+          <button type="submit">注册</button>
+          <p id="registerMessage" class="form-message"></p>
+          <p class="switch-auth">已有账号？ <button id="showLoginButton" type="button">去登录</button></p>
+        </form>
+      </section>
+    </main>
+    <footer class="auth-footer">
+      <span>© 2024 MaskFlow. 保留所有权利。</span>
+      <a href="#">用户协议</a>
+      <a href="#">隐私政策</a>
+      <a href="#">帮助中心</a>
+    </footer>
+    <script src="/shared.js"></script>
+    <script src="/auth.js"></script>
+  </body>
+</html>

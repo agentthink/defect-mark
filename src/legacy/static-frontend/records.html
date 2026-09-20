@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MaskFlow 处理记录</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body class="mf-app">
+    <header class="mf-top">
+      <a class="marketing-brand" href="/dashboard.html"><span class="logo-mark">M</span><strong>MaskFlow</strong></a>
+      <div></div>
+      <div class="mf-userbar"><button class="icon-btn">▣</button><button class="icon-btn">♧<span class="dot">1</span></button><span class="user-mini"><span class="avatar">M</span>MaskFlow User⌄</span></div>
+    </header>
+    <div class="side-shell">
+      <aside class="mf-sidebar">
+        <nav>
+          <a href="/dashboard.html"><span class="nav-icon">⌂</span>控制台</a>
+          <a href="#"><span class="nav-icon">▱</span>项目管理</a>
+          <a href="/files.html"><span class="nav-icon">☁</span>上传图片</a>
+          <a href="/segment.html"><span class="nav-icon">⌘</span>SAM 分割</a>
+          <a href="/annotate.html"><span class="nav-icon">□</span>YOLO 标注</a>
+          <a href="/export.html"><span class="nav-icon">▤</span>数据集导出</a>
+          <a href="/files.html"><span class="nav-icon">▱</span>文件管理</a>
+          <a class="active" href="/records.html"><span class="nav-icon">▦</span>处理记录</a>
+          <a href="/billing.html"><span class="nav-icon">▧</span>账单套餐</a>
+          <a href="/settings.html"><span class="nav-icon">⚙</span>账户设置</a>
+        </nav>
+      </aside>
+      <main class="side-content">
+        <div class="section-head">
+          <h1 class="mf-title">处理记录（任务列表）</h1>
+          <div class="top-actions"><input class="search-input" placeholder="搜索任务名称" /><button class="secondary">▽</button></div>
+        </div>
+        <nav class="mf-tabs"><a class="active">全部</a><a>运行中</a><a>已完成</a><a>失败</a><a>已取消</a></nav>
+        <section class="mf-card" style="margin-top:26px;padding:0 26px 24px">
+          <table class="mf-table">
+            <thead><tr><th>任务名称</th><th>处理类型</th><th>所属项目⌄</th><th>图片数量</th><th>状态⌄</th><th>开始时间</th><th>操作</th></tr></thead>
+            <tbody id="tasksTableBody">
+              <tr><td>批量自动标注_20240501_001</td><td>批量自动标注</td><td>工地安全检查项目</td><td>128</td><td><span class="mf-status">运行中</span></td><td>2024-05-01 10:20</td><td><a class="page-kicker">查看</a></td></tr>
+              <tr><td>自动分割_image_001</td><td>自动分割</td><td>交通标志识别</td><td>1</td><td><span class="mf-status ok">已完成</span></td><td>2024-05-01 09:45</td><td><a class="page-kicker">查看</a></td></tr>
+              <tr><td>批量自动标注_20240501_002</td><td>批量自动标注</td><td>围栏区域检测</td><td>256</td><td><span class="mf-status ok">已完成</span></td><td>2024-05-01 08:30</td><td><a class="page-kicker">查看</a></td></tr>
+              <tr><td>自动分割_image_002</td><td>自动分割</td><td>危险区域检测</td><td>1</td><td><span class="mf-status fail">失败</span></td><td>2024-05-01 07:20</td><td><a class="page-kicker">查看</a></td></tr>
+              <tr><td>批量自动标注_20240501_003</td><td>批量自动标注</td><td>水电管线勘测</td><td>64</td><td><span class="mf-status gray">已取消</span></td><td>2024-05-01 06:10</td><td><a class="page-kicker">查看</a></td></tr>
+            </tbody>
+          </table>
+          <div class="section-head"><span>共 15 条</span><div class="mf-pagination"><span>‹</span><span class="active">1</span><span>2</span><span>3</span><span>›</span></div></div>
+        </section>
+      </main>
+    </div>
+    <script src="/shared.js"></script>
+    <script>
+      MaskFlowAuth.requireLogin();
+      const tasksTableBody = document.querySelector("#tasksTableBody");
+      const taskStatus = {
+        queued: ["等待处理", "gray"],
+        running: ["运行中", ""],
+        completed: ["已完成", "ok"],
+        failed: ["失败", "fail"],
+        cancelled: ["已取消", "gray"],
+      };
+      const taskType = {
+        auto_segment: "自动分割",
+        auto_masks: "批量自动标注",
+        dataset_export: "数据集导出",
+      };
+      async function loadTasks() {
+        try {
+          const data = await MaskFlowAuth.apiFetch("/api/tasks");
+          if (!data.tasks.length) {
+            tasksTableBody.innerHTML = `<tr><td colspan="7" class="muted">暂无处理记录。</td></tr>`;
+            return;
+          }
+          tasksTableBody.innerHTML = data.tasks.map((task) => {
+            const [label, cls] = taskStatus[task.status] || [task.status, "gray"];
+            return `
+              <tr>
+                <td>${task.title || task.id}</td>
+                <td>${taskType[task.type] || task.type}</td>
+                <td>${task.projectId || "默认项目"}</td>
+                <td>${task.imageCount || 1}</td>
+                <td><span class="mf-status ${cls}">${label}</span></td>
+                <td>${new Date(task.startedAt || task.createdAt).toLocaleString()}</td>
+                <td><a class="page-kicker" href="/records.html">查看</a></td>
+              </tr>
+            `;
+          }).join("");
+        } catch (error) {
+          tasksTableBody.innerHTML = `<tr><td colspan="7" class="muted">${error.message}</td></tr>`;
+        }
+      }
+      loadTasks();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+.env
+outputs/
+uploads/
+*.log
+sam3.pt
+.git/
+../sam3.pt

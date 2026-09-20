@@ -1,0 +1,2 @@
+# Placeholder so `COPY clip-cache/` always has a source directory.
+# Optionally place ViT-B-32.pt here before `docker compose build` to skip network download.

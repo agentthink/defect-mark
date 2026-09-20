@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MaskFlow - AI 自动标注平台</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body class="marketing-home">
+    <header class="marketing-nav">
+      <a class="marketing-brand" href="/index.html" aria-label="MaskFlow 首页">
+        <span class="logo-mark">M</span>
+        <strong>MaskFlow</strong>
+      </a>
+      <nav class="marketing-links" aria-label="官网导航">
+        <a href="#features">功能</a>
+        <a href="/billing.html">价格</a>
+        <a href="/records.html">帮助文档</a>
+        <a href="#features">博客</a>
+      </nav>
+      <div class="marketing-actions">
+        <a class="btn secondary" href="/auth.html">登录</a>
+        <a class="btn" href="/auth.html?mode=register">注册</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="marketing-hero">
+        <div class="hero-copy">
+          <div class="hero-badge">✦ AI 自动标注平台</div>
+          <h1>AI 自动标注，<br /><span class="nowrap">让数据标注更简单高效</span></h1>
+          <p>基于先进的 AI 模型，自动分割目标，辅助人工校正，一键导出高质量数据集。</p>
+          <div class="hero-buttons">
+            <a class="btn hero-primary" href="/auth.html?mode=register">免费开始使用</a>
+            <a class="btn secondary hero-secondary" href="/segment.html">查看演示</a>
+          </div>
+          <div class="hero-points">
+            <span>✓ 简单易用</span>
+            <span>✓ 无需使用算力平台</span>
+            <span>✓ 按量付费更灵活</span>
+          </div>
+        </div>
+
+        <div class="product-preview" aria-label="MaskFlow 产品界面预览">
+          <div class="preview-topbar">
+            <span class="mini-logo">M</span>
+            <strong>MaskFlow</strong>
+            <em>自动保存：10:30:25</em>
+          </div>
+          <div class="preview-body">
+            <aside class="preview-rail">
+              <span class="active">图像</span>
+              <span>标注</span>
+              <span>模型</span>
+              <span>任务</span>
+              <span>导出</span>
+              <span>设置</span>
+            </aside>
+            <section class="preview-canvas">
+              <div class="preview-file">image_001.jpg</div>
+              <div class="mock-image">
+                <div class="sky"></div>
+                <div class="road"></div>
+                <div class="tree left"></div>
+                <div class="tree right"></div>
+                <div class="mask person big"></div>
+                <div class="mask car"></div>
+                <div class="mask person small a"></div>
+                <div class="mask person small b"></div>
+              </div>
+              <div class="preview-status">
+                <span>◎ 1920 × 1080</span>
+                <span>⚑ 4 / 128</span>
+                <span>已标注：6</span>
+                <span>未标注：122</span>
+                <span>缩放：100%</span>
+              </div>
+            </section>
+            <aside class="preview-panel">
+              <div class="panel-box">
+                <strong>标注工具</strong>
+                <div class="tool-icons"><span>↖</span><span>⌁</span><span>○</span><span>⌂</span></div>
+              </div>
+              <div class="panel-box">
+                <strong>标注列表</strong>
+                <ul class="class-list">
+                  <li><i style="background:#2563eb"></i>person <b>3</b></li>
+                  <li><i style="background:#7c3aed"></i>car <b>1</b></li>
+                  <li><i style="background:#f59e0b"></i>helmet <b>3</b></li>
+                  <li><i style="background:#ef4444"></i>vest <b>2</b></li>
+                  <li><i style="background:#16a34a"></i>gloves <b>2</b></li>
+                  <li><i style="background:#94a3b8"></i>road <b>1</b></li>
+                </ul>
+              </div>
+              <div class="panel-box">
+                <strong>AI 设置</strong>
+                <div class="select-mock">YOLOv8-seg</div>
+                <div class="slider-mock"><i></i></div>
+                <button type="button">运行 AI</button>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <section id="features" class="feature-cards" aria-label="核心功能">
+        <article>
+          <span>⌾</span>
+          <h2>AI 自动分割</h2>
+          <p>高精度分割，节省时间</p>
+        </article>
+        <article>
+          <span>▣</span>
+          <h2>批量处理</h2>
+          <p>支持批量图片自动处理</p>
+        </article>
+        <article>
+          <span>✎</span>
+          <h2>标注工具</h2>
+          <p>丰富的标注与编辑工具</p>
+        </article>
+        <article>
+          <span>▤</span>
+          <h2>数据集导出</h2>
+          <p>支持 YOLO 格式导出</p>
+        </article>
+        <article>
+          <span>☁</span>
+          <h2>云端加速</h2>
+          <p>按需算力，权限管理</p>
+        </article>
+        <article>
+          <span>◇</span>
+          <h2>安全可靠</h2>
+          <p>隐私保护，权限管理</p>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>

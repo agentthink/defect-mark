@@ -1,0 +1,35 @@
+﻿{
+  "$schema": "https://json.schemastore.org/launchsettings.json",
+  "profiles": {
+    "http": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": true,
+      "applicationUrl": "http://localhost:5152",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "MASKFLOW_MINIO_ENDPOINT": "http://127.0.0.1:9000",
+        "MASKFLOW_MINIO_ACCESS_KEY": "admin",
+        "MASKFLOW_MINIO_SECRET_KEY": "admin123456",
+        "MASKFLOW_MINIO_BUCKET": "maskflow",
+        "MASKFLOW_STORAGE": "data/storage",
+        "MASKFLOW_MYSQL": "Server=127.0.0.1;Port=3306;Database=maskflow;User ID=maskflow;Password=maskflow;Allow User Variables=true;",
+        "SAM3_INTERNAL_KEY": "maskflow-sam-dev-key",
+        "MASKFLOW_ADMIN_API_KEY": "maskflow-admin-dev-key",
+        "MASKFLOW_CORS_ORIGINS": "http://localhost:3010,http://127.0.0.1:3010,http://localhost:5152",
+        "MASKFLOW_BILLING_DEV_MODE": "true",
+        "MASKFLOW_LOGIN_MAX_ATTEMPTS": "5",
+        "MASKFLOW_LOGIN_LOCKOUT_MINUTES": "15"
+      }
+    },
+    "https": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": true,
+      "applicationUrl": "https://localhost:7243;http://localhost:5152",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

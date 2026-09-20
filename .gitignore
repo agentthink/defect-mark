@@ -1,0 +1,28 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+.env
+outputs/
+uploads/
+*.log
+backend.err
+frontend.err
+node_modules/
+dist/
+bin/
+obj/
+data/
+*.user
+*.suo
+.vs/
+
+# Model weights (too large for Git)
+*.pt
+*.pth
+*.onnx
+资源/模型/
+
+# Local runtime artifacts
+src/backend/maskflow-api/run-*.log

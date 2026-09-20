@@ -1,0 +1,120 @@
+# MaskFlow 全栈
+# 用法：copy .env.example .env 后执行 docker compose up -d --build
+
+name: maskflow
+
+services:
+  sam-inference:
+    build:
+      context: ./src/ai/sam-inference
+      dockerfile: Dockerfile
+    image: maskflow-sam-inference:latest
+    container_name: maskflow-sam-inference
+    ports:
+      - "${SAM_BIND_ADDRESS:-127.0.0.1}:${SAM_HOST_PORT:-8001}:8001"
+    environment:
+      SAM3_INTERNAL_KEY: ${SAM3_INTERNAL_KEY:-maskflow-local-development-sam-key}
+      SAM3_REQUIRE_INTERNAL_KEY: ${SAM3_REQUIRE_INTERNAL_KEY:-true}
+      SAM3_MODEL: /models/sam3.pt
+      SAM3_MAX_INFERENCE_SIDE: "1024"
+      SAM3_ENABLE_CLIP_CLASSIFICATION: "true"
+      SAM3_INCLUDE_CATEGORY_OVERLAYS: "true"
+      SAM3_CORS_ORIGINS: ${SAM3_CORS_ORIGINS:-http://localhost:3000,http://127.0.0.1:3000}
+      NVIDIA_VISIBLE_DEVICES: all
+      NVIDIA_DRIVER_CAPABILITIES: compute,utility
+    volumes:
+      - ./资源/模型/sam3.pt:/models/sam3.pt:ro
+    gpus: all
+    shm_size: "8gb"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8001/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+    restart: unless-stopped
+
+  minio:
+    image: minio/minio:latest
+    container_name: maskflow-minio
+    command: server /data --console-address ":9001"
+    ports:
+      - "${MINIO_BIND_ADDRESS:-127.0.0.1}:${MINIO_API_PORT:-9000}:9000"
+      - "${MINIO_BIND_ADDRESS:-127.0.0.1}:${MINIO_CONSOLE_PORT:-9001}:9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-admin}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:?Set MINIO_ROOT_PASSWORD in .env}
+    volumes:
+      - ${MINIO_DATA_PATH:?Set MINIO_DATA_PATH in .env}:/data
+    restart: unless-stopped
+
+  mysql:
+    image: mysql:8.4
+    container_name: maskflow-mysql
+    ports:
+      - "${MYSQL_BIND_ADDRESS:-127.0.0.1}:${MYSQL_HOST_PORT:-3307}:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?Set MYSQL_ROOT_PASSWORD in .env}
+      MYSQL_DATABASE: maskflow
+      MYSQL_USER: maskflow
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:?Set MYSQL_PASSWORD in .env}
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-p${MYSQL_ROOT_PASSWORD}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+
+  api:
+    build:
+      context: ./src/backend/maskflow-api
+      dockerfile: Dockerfile
+    image: maskflow-api-dotnet:latest
+    container_name: maskflow-api
+    ports:
+      - "${API_BIND_ADDRESS:-127.0.0.1}:${API_HOST_PORT:-8000}:8080"
+    environment:
+      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT:-Development}
+      ASPNETCORE_URLS: http://+:8080
+      SAM3_INTERNAL_KEY: ${SAM3_INTERNAL_KEY:-maskflow-local-development-sam-key}
+      MASKFLOW_ADMIN_API_KEY: ${MASKFLOW_ADMIN_API_KEY:-maskflow-local-development-admin-key}
+      MASKFLOW_CORS_ORIGINS: ${MASKFLOW_CORS_ORIGINS:-http://localhost:3000,http://127.0.0.1:3000}
+      SAM_SERVICE_URL: http://sam-inference:8001
+      MASKFLOW_STORAGE: /data/storage
+      MASKFLOW_MYSQL: Server=mysql;Port=3306;Database=maskflow;User ID=maskflow;Password=${MYSQL_PASSWORD};Allow User Variables=true;
+      MASKFLOW_MINIO_ENDPOINT: http://minio:9000
+      MASKFLOW_MINIO_ACCESS_KEY: ${MINIO_ROOT_USER:-admin}
+      MASKFLOW_MINIO_SECRET_KEY: ${MINIO_ROOT_PASSWORD}
+      MASKFLOW_MINIO_BUCKET: maskflow
+      MASKFLOW_AI_DAILY_LIMIT: ${MASKFLOW_AI_DAILY_LIMIT:-10000}
+      MASKFLOW_BILLING_DEV_MODE: ${MASKFLOW_BILLING_DEV_MODE:-true}
+      MASKFLOW_PASSWORD_RESET_INLINE: ${MASKFLOW_PASSWORD_RESET_INLINE:-true}
+    volumes:
+      - maskflow-api-data:/data
+    depends_on:
+      mysql:
+        condition: service_healthy
+      sam-inference:
+        condition: service_healthy
+      minio:
+        condition: service_started
+    restart: unless-stopped
+
+  web:
+    build:
+      context: ./src/frontend/maskflow-web
+      dockerfile: Dockerfile
+    image: maskflow-web-vue:latest
+    container_name: maskflow-frontend
+    ports:
+      - "${WEB_BIND_ADDRESS:-127.0.0.1}:${WEB_HOST_PORT:-3000}:80"
+    depends_on:
+      - api
+    restart: unless-stopped
+
+volumes:
+  mysql-data:
+    name: maskflow-mysql-data
+  maskflow-api-data:
+    name: maskflow-api-data

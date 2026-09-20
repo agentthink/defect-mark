@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MaskFlow 控制台</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body class="mf-app">
+    <header class="mf-top">
+      <a class="marketing-brand" href="/dashboard.html"><span class="logo-mark">M</span><strong>MaskFlow</strong></a>
+      <div></div>
+      <div class="mf-userbar">
+        <button class="icon-btn" type="button">▣</button>
+        <button class="icon-btn" type="button">♧<span class="dot">2</span></button>
+        <span class="user-mini"><span class="avatar">M</span><span id="dashboardAccountTitle">MaskFlow User</span>⌄</span>
+        <button id="logoutButton" class="secondary" type="button">退出</button>
+      </div>
+    </header>
+
+    <div class="side-shell">
+      <aside class="mf-sidebar">
+        <nav>
+          <a class="active" href="/dashboard.html"><span class="nav-icon">⌂</span>控制台</a>
+          <a href="#"><span class="nav-icon">▱</span>项目管理</a>
+          <a href="/files.html"><span class="nav-icon">☁</span>上传图片</a>
+          <a href="/segment.html"><span class="nav-icon">⌘</span>SAM 分割</a>
+          <a href="/annotate.html"><span class="nav-icon">□</span>YOLO 标注</a>
+          <a href="/export.html"><span class="nav-icon">▤</span>数据集导出</a>
+          <a href="/files.html"><span class="nav-icon">▱</span>文件管理</a>
+          <a href="/records.html"><span class="nav-icon">▦</span>处理记录</a>
+          <a href="/billing.html"><span class="nav-icon">▧</span>我的套餐</a>
+          <a href="/settings.html"><span class="nav-icon">⚙</span>账户设置</a>
+        </nav>
+      </aside>
+
+      <main class="side-content">
+        <h1 class="mf-title" style="font-size:24px">控制台</h1>
+        <section class="dash-metrics" style="margin-top:18px">
+          <div class="mf-card dash-metric"><span>当前项目数</span><strong>5</strong></div>
+          <div class="mf-card dash-metric"><span>已上传图片</span><strong>1,248</strong></div>
+          <div class="mf-card dash-metric"><span>已完成标注</span><strong>936</strong></div>
+          <div class="mf-card dash-metric"><span>空间用量</span><strong>2.45 <small id="dashboardAccountMeta">GB / 1 GB</small></strong></div>
+        </section>
+
+        <section class="dashboard-panels">
+          <div class="mf-card ai-overview">
+            <h2>AI 处理概览</h2>
+            <div class="ai-cards">
+              <div class="mf-card"><span>今日 AI 处理图数</span><strong style="font-size:34px">12 <small>/ 50 次</small></strong><p class="muted">每日 50 次，次日重置 ⓘ</p></div>
+              <div class="mf-card"><span>处理中任务</span><strong style="font-size:34px">2</strong><p><a class="page-kicker" href="/records.html">查看处理中记录 →</a></p></div>
+              <div class="mf-card"><span>已完成任务</span><strong style="font-size:34px">28</strong><p class="muted">今日完成</p></div>
+              <div class="mf-card"><span>失败任务</span><strong style="font-size:34px">1</strong><p class="muted">可重试 1 个</p></div>
+            </div>
+          </div>
+          <aside class="mf-card quota-panel">
+            <h2>AI 额度</h2>
+            <p>今日剩余</p>
+            <strong style="font-size:34px">38 <small>/ 50 次</small></strong>
+            <div class="progress"><i style="width:76%"></i></div>
+            <p id="dashboardAccountMetaAlt">当前套餐：Free</p>
+            <a class="btn secondary" href="/billing.html" style="width:100%">升级套餐</a>
+          </aside>
+        </section>
+
+        <section class="recent-grid">
+          <div class="mf-card ai-overview">
+            <h2>最近项目</h2>
+            <table class="mf-table">
+              <thead><tr><th>项目名称</th><th>图片数量</th><th>标注数量</th><th>最后更新</th><th>操作</th></tr></thead>
+              <tbody>
+                <tr><td>交通标志识别</td><td>320</td><td>256</td><td>2024-06-01 10:30</td><td><a class="page-kicker">查看</a></td></tr>
+                <tr><td>工业安全检测</td><td>512</td><td>420</td><td>2024-06-01 09:15</td><td><a class="page-kicker">查看</a></td></tr>
+                <tr><td>水面垃圾检测</td><td>416</td><td>280</td><td>2024-05-31 18:20</td><td><a class="page-kicker">查看</a></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="mf-card ai-overview">
+            <h2>处理记录</h2>
+            <div class="mini-records">
+              <div><span>● 处理自动标注 128 张</span><b class="mf-status">进行中</b></div>
+              <div><span>● 自动分割 1 张</span><b class="mf-status ok">已完成</b></div>
+              <div><span>● 批量自动标注 256 张</span><b class="mf-status fail">失败</b></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="mf-card" style="margin-top:16px;padding:0 20px 18px">
+          <div class="section-head"><h2>处理记录（任务列表）</h2><div class="top-actions"><input class="search-input" placeholder="搜索任务名称" /><button class="secondary">▽</button></div></div>
+          <nav class="mf-tabs"><a class="active">全部</a><a>运行中</a><a>已完成</a><a>失败</a><a>已取消</a></nav>
+          <table class="mf-table">
+            <thead><tr><th>任务名称</th><th>处理类型</th><th>所属项目</th><th>图片数量</th><th>状态</th><th>开始时间</th><th>操作</th></tr></thead>
+            <tbody>
+              <tr><td>批量自动标注_20240601_001</td><td>批量自动标注</td><td>工业安全检测</td><td>128</td><td><span class="mf-status">进行中</span></td><td>2024-06-01 10:20</td><td><a class="page-kicker">查看</a></td></tr>
+              <tr><td>自动分割_image_001</td><td>自动分割</td><td>交通标志识别</td><td>1</td><td><span class="mf-status ok">已完成</span></td><td>2024-06-01 09:45</td><td><a class="page-kicker">查看</a></td></tr>
+              <tr><td>批量自动标注_20240531_002</td><td>批量自动标注</td><td>自动驾驶数据集</td><td>256</td><td><span class="mf-status ok">已完成</span></td><td>2024-05-31 18:30</td><td><a class="page-kicker">查看</a></td></tr>
+              <tr><td>自动分割_image_002</td><td>自动分割</td><td>水面垃圾检测</td><td>1</td><td><span class="mf-status fail">失败</span></td><td>2024-05-31 17:20</td><td><a class="page-kicker">查看</a></td></tr>
+              <tr><td>批量自动标注_20240531_001</td><td>批量自动标注</td><td>水面垃圾检测集</td><td>64</td><td><span class="mf-status gray">已取消</span></td><td>2024-05-31 16:10</td><td><a class="page-kicker">查看</a></td></tr>
+            </tbody>
+          </table>
+          <div class="section-head"><span>共 15 条</span><div class="mf-pagination"><span>‹</span><span class="active">1</span><span>2</span><span>3</span><span>›</span></div></div>
+        </section>
+      </main>
+    </div>
+    <script src="/shared.js"></script>
+    <script>
+      MaskFlowAuth.requireLogin();
+      MaskFlowAuth.renderAccountStrip("dashboardAccountTitle", "dashboardAccountMeta");
+      document.querySelector("#logoutButton").addEventListener("click", () => {
+        MaskFlowAuth.logout();
+        location.href = "/index.html";
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MaskFlow 文件管理</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body class="mf-app">
+    <header class="mf-top">
+      <a class="marketing-brand" href="/dashboard.html"><span class="logo-mark">M</span><strong>MaskFlow</strong></a>
+      <nav class="mf-nav"><a href="/index.html#features">功能</a><a href="/billing.html">价格</a><a href="#">帮助文档</a><a href="#">博客</a></nav>
+      <div class="mf-userbar"><button class="icon-btn">♧<span class="dot">1</span></button><span class="user-mini"><span class="avatar">M</span>MaskFlow User⌄</span></div>
+    </header>
+
+    <main class="mf-content" style="max-width:1500px">
+      <div class="section-head"><h1 class="mf-title" style="color:var(--blue)">文件管理</h1><button type="button">↥ 上传文件</button></div>
+      <nav class="mf-tabs"><a class="active">全部文件</a><a>图片</a><a>标注文件</a><a>导出文件</a></nav>
+
+      <section class="filter-grid">
+        <label class="filter-item">文件名<input placeholder="搜索文件名" /></label>
+        <label class="filter-item">类型<select><option>全部类型</option></select></label>
+        <label class="filter-item">大小<select><option>全部大小</option></select></label>
+        <label class="filter-item">所属项目<select><option>全部项目</option></select></label>
+        <label class="filter-item">上传时间<input value="开始日期  →  结束日期" /></label>
+        <button class="secondary" type="button">重置</button>
+        <button type="button">搜索</button>
+      </section>
+
+      <section class="mf-card">
+        <table class="mf-table">
+          <thead><tr><th>文件名</th><th>类型</th><th>大小</th><th>所属项目</th><th>上传时间</th><th>操作</th></tr></thead>
+          <tbody id="filesTableBody">
+            <tr><td><span class="file-icon">▧</span>image_001.jpg</td><td>图片</td><td>1.2 MB</td><td>工地安全检测项目</td><td>2024-06-01 10:30</td><td>•••</td></tr>
+            <tr><td><span class="file-icon">▧</span>image_002.jpg</td><td>图片</td><td>1.1 MB</td><td>工地安全检测项目</td><td>2024-06-01 10:10</td><td>•••</td></tr>
+            <tr><td><span class="file-icon">▧</span>image_003.jpg</td><td>图片</td><td>1.3 MB</td><td>工地安全检测项目</td><td>2024-06-01 09:45</td><td>•••</td></tr>
+            <tr><td><span class="file-icon">▧</span>image_004.jpg</td><td>图片</td><td>1.4 MB</td><td>工地安全检测项目</td><td>2024-06-01 09:20</td><td>•••</td></tr>
+            <tr><td><span class="file-icon zip">↕</span>export_dataset.zip</td><td>导出文件</td><td>32.4 MB</td><td>工地安全检测项目</td><td>2024-06-01 11:30</td><td>•••</td></tr>
+            <tr><td><span class="file-icon doc">≡</span>annotation_001.json</td><td>标注文件</td><td>512 KB</td><td>工地安全检测项目</td><td>2024-06-01 10:05</td><td>•••</td></tr>
+            <tr><td><span class="file-icon txt">≡</span>classes.txt</td><td>标注文件</td><td>2.1 KB</td><td>工地安全检测项目</td><td>2024-05-31 18:20</td><td>•••</td></tr>
+            <tr><td><span class="file-icon zip">≡</span>labels.yaml</td><td>标注文件</td><td>1.8 KB</td><td>工地安全检测项目</td><td>2024-05-31 18:10</td><td>•••</td></tr>
+          </tbody>
+        </table>
+      </section>
+      <div class="section-head" style="margin-top:20px"><span>共 15 条</span><div class="mf-pagination"><span>‹</span><span class="active">1</span><span>2</span><span>3</span><span>›</span><button style="width:120px">10 条/页⌄</button></div></div>
+    </main>
+    <script src="/shared.js"></script>
+    <script>
+      MaskFlowAuth.requireLogin();
+      const filesTableBody = document.querySelector("#filesTableBody");
+      const fileKindLabel = { image: "图片", annotation: "标注文件", export: "导出文件" };
+      const fileIconClass = { image: "", annotation: "doc", export: "zip" };
+      const formatFileSize = (bytes) => MaskFlowAuth.formatBytes(bytes || 0);
+      async function loadFiles() {
+        try {
+          const data = await MaskFlowAuth.apiFetch("/api/files");
+          if (!data.files.length) {
+            filesTableBody.innerHTML = `<tr><td colspan="6" class="muted">暂无文件，上传图片后会显示在这里。</td></tr>`;
+            return;
+          }
+          filesTableBody.innerHTML = data.files.map((file) => `
+            <tr>
+              <td><span class="file-icon ${fileIconClass[file.kind] || ""}">▧</span>${file.name}</td>
+              <td>${fileKindLabel[file.kind] || file.kind}</td>
+              <td>${formatFileSize(file.size)}</td>
+              <td>${file.projectId || "默认项目"}</td>
+              <td>${new Date(file.createdAt).toLocaleString()}</td>
+              <td>•••</td>
+            </tr>
+          `).join("");
+        } catch (error) {
+          filesTableBody.innerHTML = `<tr><td colspan="6" class="muted">${error.message}</td></tr>`;
+        }
+      }
+      loadFiles();
+    </script>
+  </body>
+</html>

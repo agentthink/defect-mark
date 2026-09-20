@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MaskFlow YOLO 标注工作台</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body class="mf-app">
+    <header class="mf-top">
+      <a class="marketing-brand" href="/dashboard.html"><span class="logo-mark">M</span><strong>MaskFlow</strong></a>
+      <nav class="mf-nav">
+        <a href="/dashboard.html">控制台</a>
+        <a href="#">项目管理</a>
+        <a class="active" href="/annotate.html">标注工具</a>
+        <a href="/export.html">数据集</a>
+        <a href="/billing.html">模型训练</a>
+      </nav>
+      <div class="mf-userbar"><button class="icon-btn">♧<span class="dot">1</span></button><button class="icon-btn">?</button><span class="user-mini"><span class="avatar">M</span>MaskFlow User⌄</span></div>
+    </header>
+
+    <main class="yolo-shell">
+      <section class="mf-card yolo-board">
+        <aside class="yolo-left">
+          <h2>YOLO 标注</h2>
+          <label class="dropzone compact" for="folderInput">
+            <input id="folderInput" type="file" accept="image/*" webkitdirectory directory multiple />
+            <span id="folderName">选择图片文件夹</span>
+          </label>
+          <h3>图像列表（128）</h3>
+          <div id="imageList" class="image-list thumb-list">
+            <div class="thumb-item"><span class="thumb-art"></span><span>image_001.jpg</span></div>
+            <div class="thumb-item"><span class="thumb-art"></span><span>image_002.jpg</span></div>
+            <div class="thumb-item active"><span class="thumb-art"></span><span>image_003.jpg</span></div>
+            <div class="thumb-item"><span class="thumb-art"></span><span>image_004.jpg</span></div>
+            <div class="thumb-item"><span class="thumb-art"></span><span>image_005.jpg</span></div>
+            <div class="thumb-item"><span class="thumb-art"></span><span>image_006.jpg</span></div>
+          </div>
+          <button class="secondary" type="button" style="width:100%;margin-top:16px">上传更多</button>
+        </aside>
+
+        <section class="yolo-center">
+          <h1 class="mf-title yolo-title" style="font-size:28px">YOLO 标注工作台</h1>
+          <div class="yolo-toolbar">
+            <div class="left">
+              <button class="secondary" type="button">⌕</button>
+              <button id="autoMaskButton" type="button">▣ 批量自动标注</button>
+            </div>
+            <div class="right">
+              <button id="prevImageButton" class="secondary" type="button">‹ 上一张</button>
+              <button id="nextImageButton" class="secondary" type="button">下一张 ›</button>
+              <button id="saveAnnotationButton" class="secondary" type="button">保存标注</button>
+              <button id="exportYoloButton" class="secondary" type="button">导出当前 TXT</button>
+              <button id="exportDatasetButton" type="button">下载数据集 ZIP</button>
+            </div>
+          </div>
+
+          <div class="annotation-canvas-wrap">
+            <canvas id="annotationCanvas"></canvas>
+            <div id="annotationEmptyState">图片会显示在这里</div>
+          </div>
+
+          <div class="tool-strip" style="justify-content:center;margin-top:18px">
+            <button class="secondary">✋</button><button class="secondary">□</button><button class="secondary">−</button><span>128%⌄</span><button class="secondary">⊕</button><button class="secondary">适应窗口</button>
+          </div>
+        </section>
+
+        <aside class="yolo-right">
+          <h2>标签管理</h2>
+          <div class="label-create" style="grid-template-columns:1fr auto;margin-bottom:14px">
+            <input id="newLabelInput" type="text" placeholder="新增标签" />
+            <button id="addLabelButton" type="button">添加</button>
+          </div>
+          <div id="labelList" class="label-list">
+            <div class="label-chip"><span><i class="label-color" style="background:#7c3aed"></i> person</span><b>■</b></div>
+            <div class="label-chip"><span><i class="label-color" style="background:#fbbf24"></i> helmet</span><b>■</b></div>
+            <div class="label-chip"><span><i class="label-color" style="background:#fb6b2b"></i> vest</span><b>■</b></div>
+            <div class="label-chip"><span><i class="label-color" style="background:#22c55e"></i> gloves</span><b>■</b></div>
+          </div>
+          <button class="secondary" type="button" style="width:100%;margin-top:16px">+ 添加标签</button>
+
+          <div class="mf-card support-card" style="margin-top:20px">
+            <h2>AI 信息</h2>
+            <div id="maskList" class="mask-list"><div class="empty-note">点击批量自动标注</div></div>
+            <div class="info-panel">
+              <div><span>AI 自动标注</span><b class="mf-status ok">已完成</b></div>
+              <div><span>置信度：</span><b>0.95</b></div>
+              <div><span>任务类型：</span><b>自检分割</b></div>
+              <div><span>处理时间：</span><b>12.4s</b></div>
+              <div><span>模型版本：</span><b>MaskFlow-YOLOv8</b></div>
+            </div>
+            <button class="secondary" type="button" style="width:100%;margin-top:18px">重新运行 AI</button>
+          </div>
+          <div class="mf-card support-card" style="margin-top:20px">
+            <h2>已保存标注</h2>
+            <div id="annotationList" class="mask-list"></div>
+          </div>
+        </aside>
+      </section>
+
+      <div class="mf-card tool-footer" style="margin-top:16px">
+        <span>AI 辅助：<b>正常</b></span><span id="annotatorTitle">当前图片：image_003.jpg</span><span>标注状态：<b>已保存</b></span><span id="annotatorMeta">分辨率：1920 × 1080</span><span>标注数量：5</span><span>文件大小：1.24 MB</span>
+      </div>
+      <p id="statusText" class="muted" style="margin:12px 0 0">正在读取模型状态</p>
+      <section class="account-strip compact-account" style="display:none"><strong id="annotateAccountTitle">未登录</strong><span id="annotateAccountMeta"></span></section>
+    </main>
+    <script src="/shared.js"></script>
+    <script>MaskFlowAuth.requireLogin();</script>
+    <script src="/annotate.js"></script>
+  </body>
+</html>

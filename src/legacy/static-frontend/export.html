@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MaskFlow 数据集导出</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body class="mf-app">
+    <header class="mf-top">
+      <a class="marketing-brand" href="/index.html"><span class="logo-mark">M</span><strong>MaskFlow</strong></a>
+      <nav class="mf-nav">
+        <a href="/index.html#features">功能</a>
+        <a href="/billing.html">价格</a>
+        <a href="#">帮助文档</a>
+        <a href="#">博客</a>
+      </nav>
+      <div class="marketing-actions"><a class="btn secondary" href="/auth.html">登录</a><a class="btn" href="/auth.html?mode=register">注册</a></div>
+    </header>
+
+    <main class="mf-content">
+      <section class="mf-card export-card">
+        <h1 class="mf-title">数据集导出</h1>
+        <p class="mf-subtitle">导出标注数据，支持自定义格式、数据结构和压缩设置，<br />便于本地存储或在其他平台中使用。</p>
+
+        <section class="export-grid">
+          <div class="mf-card support-card">
+            <h2>导出配置</h2>
+            <label class="filter-item">选择项目<select><option>工地安全检查项目</option></select></label>
+            <h3>数据集划分</h3>
+            <div class="range-line"><span>训练集 (train)</span><input type="range" value="70" /><b>70%</b></div>
+            <div class="range-line"><span>验证集 (val)</span><input type="range" value="20" /><b>20%</b></div>
+            <div class="range-line"><span>测试集 (test)</span><input type="range" value="10" /><b>10%</b></div>
+            <label class="filter-item">标注格式<select><option>YOLO (txt)</option></select></label>
+            <h3>包含内容</h3>
+            <div class="checkbox-row"><label><input type="checkbox" checked /> 标注图片</label><label><input type="checkbox" checked /> 标注标签</label><label><input type="checkbox" checked /> 包含配置文件</label></div>
+            <h3>文件命名</h3>
+            <div class="radio-row"><label><input type="radio" name="name" checked /> 按原文件名</label><label><input type="radio" name="name" /> 自动重命名</label></div>
+            <a class="btn" href="/annotate.html" style="width:100%;min-height:58px">⇩ 导出数据集 ZIP</a>
+          </div>
+
+          <div class="mf-card support-card">
+            <h2>导出预览</h2>
+            <div class="support-items" style="grid-template-columns:repeat(3,1fr);margin:22px 0">
+              <strong>▱ dataset/</strong><strong>▤ 1,268 个文件</strong><strong>◉ 512.4 MB</strong>
+            </div>
+            <div class="tree-preview">
+              <ul>
+                <li>dataset/
+                  <ul>
+                    <li>images/
+                      <ul><li>train/</li><li>val/</li><li>test/</li></ul>
+                    </li>
+                    <li>labels/
+                      <ul><li>train/</li><li>val/</li><li>test/</li></ul>
+                    </li>
+                    <li>dataset.yaml</li>
+                    <li>classes.txt</li>
+                    <li>README.md</li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+            <div class="info-strip">ⓘ 导出后将生成 ZIP 压缩包，包含图片、标签文件及配置文件。</div>
+          </div>
+        </section>
+      </section>
+    </main>
+    <script src="/shared.js"></script>
+    <script>MaskFlowAuth.requireLogin();</script>
+  </body>
+</html>

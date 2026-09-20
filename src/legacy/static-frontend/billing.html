@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MaskFlow 账单套餐</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body class="mf-app">
+    <header class="mf-top">
+      <a class="marketing-brand" href="/dashboard.html"><span class="logo-mark">M</span><strong>MaskFlow</strong></a>
+      <nav class="mf-nav">
+        <a href="/dashboard.html">控制台</a>
+        <a href="/records.html">项目管理</a>
+        <a href="/annotate.html">AI 标注工具</a>
+        <a href="/export.html">数据集</a>
+        <a href="/billing.html" class="active">模型训练</a>
+        <a href="/files.html">文档中心</a>
+        <a href="#">API</a>
+      </nav>
+      <div class="mf-userbar">
+        <button class="icon-btn" type="button">♧<span class="dot">1</span></button>
+        <button class="icon-btn" type="button">?</button>
+        <span class="user-mini"><span class="avatar">M</span>MaskFlow User⌄</span>
+      </div>
+    </header>
+
+    <main class="mf-content">
+      <section class="billing-head">
+        <div class="billing-icon">▤</div>
+        <div>
+          <h1 class="mf-title">账单套餐</h1>
+          <p class="mf-subtitle">选择适合您的套餐，畅享高效的 AI 数据标注体验</p>
+        </div>
+      </section>
+
+      <nav class="mf-tabs"><a class="active" href="#">套餐订阅</a><a href="#">使用记录</a></nav>
+
+      <section class="price-plans">
+        <article class="mf-card price-card">
+          <h2>Free</h2>
+          <div class="price">¥0 <span>/月</span></div>
+          <ul class="price-list"><li>10G 存储空间</li><li>每日 50 次 AI 处理</li><li>基础标注工具</li><li>数据集导出</li></ul>
+          <button class="secondary" type="button">当前套餐</button>
+        </article>
+        <article class="mf-card price-card featured">
+          <h2>Pro <span class="mf-status" style="float:right">推荐</span></h2>
+          <div class="price featured">¥49 <span>/月</span></div>
+          <ul class="price-list"><li>500G 存储空间</li><li>每日 1000 次 AI 处理</li><li>高级标注工具</li><li>团队协作功能</li><li>更多数据集导出</li></ul>
+          <button type="button">立即升级</button>
+        </article>
+        <article class="mf-card price-card">
+          <h2>Team</h2>
+          <div class="price">¥299 <span>/月</span></div>
+          <ul class="price-list"><li>5000G 存储空间</li><li>无限次 AI 处理</li><li>高级标注工具</li><li>团队协作（5 人）</li><li>专属技术支持</li><li>自定义导出</li></ul>
+          <button class="secondary" type="button">立即升级</button>
+        </article>
+      </section>
+
+      <section class="support-grid">
+        <div class="mf-card support-card">
+          <h2>套餐说明</h2>
+          <div class="support-items">
+            <div><strong>☁ 存储空间</strong><p class="muted">用于存储您上传的图片、视频及标注数据。</p></div>
+            <div><strong>▣ AI 处理次数</strong><p class="muted">包括自动处理、智能分割、人工校正等 AI 功能的调用次数。</p></div>
+            <div><strong>▤ 标注工具</strong><p class="muted">不同套餐提供不同的标注工具和高级功能。</p></div>
+            <div><strong>♧ 团队协作</strong><p class="muted">支持团队成员管理、任务分配与协作标注。</p></div>
+          </div>
+        </div>
+        <div class="mf-card support-card">
+          <h2>常见问题</h2>
+          <div class="faq-list">
+            <div><span>套餐可以随时升级或降级吗?</span><b>⌄</b></div>
+            <div><span>AI 处理次数用完后怎么办?</span><b>⌄</b></div>
+            <div><span>存储空间可以单独购买吗?</span><b>⌄</b></div>
+            <div><span>如何开具发票?</span><b>⌄</b></div>
+          </div>
+        </div>
+      </section>
+      <div class="info-strip">♙ 所有套餐按月计费，可随时取消。升级后剩余资源将自动叠加。</div>
+    </main>
+    <script src="/shared.js"></script>
+    <script>MaskFlowAuth.requireLogin();</script>
+  </body>
+</html>
